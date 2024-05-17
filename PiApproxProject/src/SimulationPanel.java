@@ -10,7 +10,7 @@ public class SimulationPanel extends JPanel {
     public SimulationPanel()
     {
         Figures.add(new Square(100,250,50,1,0));
-        Figures.add(new Square(500, 200, 100, 100, -1 ));
+        Figures.add(new Square(500, 200, 100, 100, -1));
         Timer timer = new Timer(16, e -> {
             updateState();
             repaint();
@@ -42,8 +42,10 @@ public class SimulationPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for(Draw f: Figures){
+        for(Draw f: Figures) {
             f.draw(g);
         }
+        g.setColor(Color.BLACK);
+        g.drawString("Colissions:" + count,100,20);
     }
 }
