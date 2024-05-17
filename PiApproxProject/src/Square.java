@@ -1,9 +1,9 @@
 import java.awt.*;
 
 public class Square extends Draw{
-    private int size;
+    private final int size;
     private double vel;
-    private int mass;
+    private final int mass;
 
     public Square(int x, int y, int size, int mass, double vel)
     {
@@ -38,8 +38,17 @@ public class Square extends Draw{
         this.vel = vel;
     }
 
-    public void move(){
-        x += (int)Math.round(vel);
+    public void setX(int x)
+    {
+        this.x = x;
+    }
+    public void move(double deltaTime){
+        if(vel < 0) {
+            x += (int) (Math.floor(vel * deltaTime));
+        }
+        else{
+            x += (int) (Math.ceil(vel * deltaTime));
+        }
     }
 
     @Override
