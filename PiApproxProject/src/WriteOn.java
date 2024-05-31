@@ -1,8 +1,6 @@
-import java.awt.*;
-// klasa będzie rysowała punkty i linie na kole
-    public abstract class WriteOn extends Draw{
+public class WriteOn{
 
-    public WriteOn(int x, int y) {
-        super(x, y);
+    public static void writeCurrent(int nr, double v1, double m1, double v2, double m2) {
+
     }
 }

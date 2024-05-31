@@ -54,7 +54,12 @@ public class Square extends Draw{
     @Override
     public void draw(Graphics g)
     {
-        g.setColor(Color.GRAY);
+        g.setColor(Color.DARK_GRAY);
         g.fillRect(x, y, size, size);
+        Font font = new Font("Arial", Font.BOLD, 16);
+        FontMetrics fm = g.getFontMetrics(font);
+        g.setFont(font);
+        g.setColor(Color.BLACK);
+        g.drawString(String.valueOf(mass), x+size/2-String.valueOf(mass).length()*fm.charWidth('0')/2, y-5);
     }
 }
