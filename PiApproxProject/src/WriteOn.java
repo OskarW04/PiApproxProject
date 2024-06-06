@@ -12,7 +12,7 @@ public class WriteOn{
         this.fileName = fileName;
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            String HEADER = "Nr kolizji  Prędkość przy kolizji 1. obiektu  Masa 1. obiektu  Prędkość przy kolizji 2. obiektu  Masa 2. obiektu";
+            String HEADER = "Nr kolizji    Wektor prędkości po kolizji 1. obiektu    Masa 1. obiektu    Wektor prędkości po kolizji 2. obiektu    Masa 2. obiektu";
             writer.write(HEADER + System.lineSeparator());
         } catch (IOException e) {
             System.out.println("Error" + e.getMessage());
@@ -21,7 +21,7 @@ public class WriteOn{
 
     public void writeNew(int collisionNumber, double v1, int m1, double v2, int m2) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            String collisionData = String.format("%5d%30.2f%18d%30.2f%25d%n", collisionNumber, v1/100, m1, v2/100, m2);
+            String collisionData = String.format("%6d%29.2f%29d%32.2f%30d%n", collisionNumber, v1/100, m1, v2/100, m2);
             writer.write(collisionData);
         } catch (IOException e) {
             System.out.println("Error" + e.getMessage());

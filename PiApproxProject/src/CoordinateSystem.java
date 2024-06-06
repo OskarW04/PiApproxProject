@@ -49,7 +49,7 @@ import java.awt.*;
             div--;
         }
         g.drawString("0", x+10, y+20);
-        g.drawString("v1", x+300, y-5 );
-        g.drawString("v2", x+5, y-250);
+        g.drawString("v1 * √m1", x+300, y-5 );
+        g.drawString("v2 * √m2", x+5, y-245);
     }
 }
