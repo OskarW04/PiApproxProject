@@ -13,35 +13,36 @@ public class SimulationPanel extends JPanel {
     public SimulationPanel(int initMass)
     {
         this.initMass = initMass;
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
         //Nowe elementy do rysowania
         Figures.add(new Square(100,225,75,1,0));
         Figures.add(new Square(500, 200, 100, initMass, -100));
         Figures.add(new Line(5, 0, 5, 300, 3, Color.BLACK));
         Figures.add(new Line(5, 300, 1800, 300, 3, Color.BLACK));
-
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
-        setBackground(Color.gray);
         Figures.add(new CoordinateSystem(screenSize.width/2, (int)(screenSize.height/1.6), initMass));
+
+        WriteOn writing = new WriteOn(WriteOn.generateFileName());
+        setBackground(Color.gray);
         Timer timer = new Timer(16, e -> {
-            updateState();
+            updateState(writing);
             repaint();
         });
         timer.start();
     }
 
-    private void updateState()
+    private void updateState(WriteOn writing)
     {
 
         Points.clear();
         Square s1 = (Square)Figures.get(0);
         Square s2 = (Square)Figures.get(1);
-
         double deltaTime = 16.6667 / 1000;
         Points.add(new Point((int)(s2.getVel()* Math.sqrt(s2.getMass())),(int)(s1.getVel()* Math.sqrt(s1.getMass())),8, (CoordinateSystem)Figures.get(4), initMass));
         if(PhysicsEngine.wallCollision(s1)){
             count++;
             s1.setVel(s1.getVel()*-1);
+            writing.writeNew(count, s1.getVel(), s1.getMass(), s2.getVel(), s2.getMass());
             newPoint(s1, s2);
             s1.setX(9);
 
@@ -49,8 +50,8 @@ public class SimulationPanel extends JPanel {
         else if(PhysicsEngine.isColliding(s1, s2)){
             count++;
             PhysicsEngine.calculateNewVel(s1, s2);
+            writing.writeNew(count, s1.getVel(), s1.getMass(), s2.getVel(), s2.getMass());
             newPoint(s1, s2);
-
             s1.setX(s2.getX()-s1.getSize()-3);
 
         }
@@ -79,9 +80,19 @@ public class SimulationPanel extends JPanel {
             f.draw(g);
         }
 
-        Font font = new Font("Arial", Font.PLAIN, 32);
-        g.setFont(font);
+        //Wyświetlanie ilości kolizji
+        Font font1 = new Font("Arial", Font.PLAIN, 32);
+        g.setFont(font1);
         g.setColor(Color.YELLOW);
         g.drawString("Collisions:" + count,100,100);
+        //Wyświetlanie prędkości w danym momencie
+        Font font2 = new Font("Arial", Font.PLAIN, 16);
+        g.setColor(Color.BLACK);
+        g.setFont(font2);
+        Square s1 = (Square)Figures.getFirst();
+        Square s2 = (Square)Figures.get(1);
+        g.drawString("V1: " + String.format("%.2f", s1.getVel()/100), 20, 330);
+        g.drawString("V2: " + String.format("%.2f", s2.getVel()/100), 20, 350);
+
     }
 }
