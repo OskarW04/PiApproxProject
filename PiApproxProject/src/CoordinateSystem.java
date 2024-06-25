@@ -25,7 +25,7 @@ import java.awt.*;
             new Line(x+i, y+5, x+i, y-5, 2, Color.BLACK).draw(g);
             if(div != -3)
             {
-                g.drawString(String.format("%.2f",(Math.sqrt(initMass)/div)), x+i+3, y+20);
+                g.drawString(String.format("%.2f",(-Math.sqrt(initMass)/div)), x+i+3, y+20);
             }
             if(div==-3)
             {
