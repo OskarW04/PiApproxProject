@@ -39,6 +39,17 @@ public class SimulationPanel extends JPanel {
         Square s2 = (Square)Figures.get(1);
         double deltaTime = 16.6667 / 1000;
         Points.add(new Point((int)(s2.getVel()* Math.sqrt(s2.getMass())),(int)(s1.getVel()* Math.sqrt(s1.getMass())),8, (CoordinateSystem)Figures.get(4), initMass));
+
+        Thread t1 = new Thread(() -> {
+            s1.move(deltaTime);
+        });
+        Thread t2 = new Thread(() -> {
+            if(s2.getX() > s1.getSize()+10 || s2.getVel() > 0 && count >= (int)(Math.PI*Math.sqrt(s2.getMass())-12))
+            {
+                s2.move(deltaTime);
+            }
+        });
+
         if(PhysicsEngine.wallCollision(s1)){
             count++;
             s1.setVel(s1.getVel()*-1);
@@ -55,13 +66,21 @@ public class SimulationPanel extends JPanel {
             s1.setX(s2.getX()-s1.getSize()-3);
 
         }
-        else {
-            s1.move(deltaTime);
+        else{
+            t1.start();
         }
-        if(s2.getX() > s1.getSize()+10 || s2.getVel() > 0 && count >= (int)(Math.PI*Math.sqrt(s2.getMass())-12))
+
+        t2.start();
+
+        try{
+            t1.join();
+            t2.join();
+        }catch (InterruptedException e)
         {
-            s2.move(deltaTime);
+            e.printStackTrace();
         }
+
+
         if(Points.size() == 2)
         {
             Figures.add(new Line(Points.get(0).getPointCoordinates()[0], Points.get(0).getPointCoordinates()[1], Points.get(1).getPointCoordinates()[0], Points.get(1).getPointCoordinates()[1], 2, Color.yellow));
